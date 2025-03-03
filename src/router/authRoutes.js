@@ -35,18 +35,18 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Contraseña incorrecta" });
 
-    // Usar moment-timezone para obtener la hora local con zona horaria
-    const expirationTime = Math.floor(moment.tz('America/Caracas').unix() + (60 * 60)); // Expiración de 1 hora
+    // Obtener el tiempo de expiración correctamente
+    const expirationTime = Math.floor(Date.now() / 1000) + (60 * 60); // 1 hora desde ahora
 
     // Crear el token con la nueva expiración
     const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { exp: expirationTime }
+      { id: user._id, exp: expirationTime }, // El exp debe estar dentro del payload
+      process.env.JWT_SECRET
     );
 
     res.json({ token, user: { id: user._id, email: user.email } });
   } catch (error) {
+    console.error("Error en el login:", error);
     res.status(500).json({ error: "Error en el login" });
   }
 });

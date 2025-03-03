@@ -2,9 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import authRoutes from './router/authRoutes.js';  // Asegúrate de usar '.js' en las importaciones
+import authRoutes from './router/authRoutes.js';
 
-dotenv.config();  // Cargar las variables de entorno desde el archivo .env
+dotenv.config(); 
 const app = express();
 
 
